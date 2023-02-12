@@ -1,6 +1,7 @@
 <h1>Register Page</h1>
 
 <form method="post" action="/auth/register">
+  <label>Email: <input type="text" name="email" value="{{body.email}}" /></label> <!--По този начин запазваме самото поле да не се изтрие при рефреш!!!-->
   <label>Username: <input type="text" name="username" value="{{body.username}}" /></label> <!--По този начин запазваме самото поле да не се изтрие при рефреш!!!-->
   <label>Password: <input type="password" name="password" /></label>
   <label>Repeat: <input type="password" name="repass" /></label>
