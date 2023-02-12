@@ -1,22 +1,26 @@
-const { create } = require("../services/bookService");
+const { hasUser } = require("../middlewares/guards");
+const { create, getAll } = require("../services/bookService");
 const { parseError } = require("../util/parser");
 const catalogController = require("express").Router();
 
-catalogController.get("/", (req, res) => {
+
+catalogController.get("/", async (req, res) => {
+    const books = await getAll()
   res.render("catalog", {
     tytle: "Catalog page",
     user: req.user,
+    books,
   });
 });
 
-catalogController.get("/create", (req, res) => {
+catalogController.get("/create",hasUser(), (req, res) => {
   res.render("create", {
     title: "Create new book review",
   });
 });
 
 
-catalogController.post("/create", async (req, res) => {
+catalogController.post("/create",hasUser(), async (req, res) => {
 const book = {
     title: req.body.title,
     author: req.body.author,
