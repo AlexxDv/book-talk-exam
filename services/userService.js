@@ -30,7 +30,8 @@ async function register(email, username, password) {
   return token;
 }
 async function login(email, password) {
-  //Ако трябва да проверяваме и за имейл-трябва да направим търсенето още веднъж
+  
+
   const user = await User.findOne({ email }).collation({
     locale: "en",
     strength: 2,

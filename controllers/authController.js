@@ -59,16 +59,14 @@ authController.post("/login", async (req, res) => {
     const token = await login(req.body.email, req.body.password);
 
     res.cookie("token", token);
-    res.redirect("/"); //TODO replace with redirect view by assignment
+    res.redirect("/"); 
   } catch (error) {
     const errors = parseError(error);
-
-    //TODO add error display to actual templpate from assignment
     res.render("login", {
       title: "Login Page",
       errors,
       body: {
-        username: req.body.email,
+        email: req.body.email,
       },
     });
   }

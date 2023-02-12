@@ -29,15 +29,16 @@
       <div class="header">
         <nav class="navbar">
           <a href="/">Home</a>
-          <a href="#">Catalog</a>
-         {{#if username}}
+          <a href="/catalog">Catalog</a>
+         {{#if user}}
           <a href="/profile">Profile</a>
-          <a href="/preview/create">Create Review</a>
+          <a href="/catalog/create">Create Review</a>
           <a href="/auth/logout">Logout</a>
           {{else}}
           <a href="/auth/login">Login</a>
           <a href="/auth/register">Register</a>
           {{/if}}
+         <p>Welcome {{user.username}}</p>
         </nav>
       </div>
 
