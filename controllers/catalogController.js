@@ -36,7 +36,7 @@ catalogController.get("/create", (req, res) => {
   });
 });
 
-catalogController.get("/:id/edit", async (req, res) => {
+catalogController.get("/:id/edit",hasUser(), async (req, res) => {
   const book = await getById(req.params.id);
 
   if (book.owner != req.user._id) {
@@ -49,7 +49,7 @@ catalogController.get("/:id/edit", async (req, res) => {
   });
 });
 
-catalogController.post("/:id/edit", async (req, res) => {
+catalogController.post("/:id/edit",hasUser(), async (req, res) => {
   const book = await getById(req.params.id);
 
   if (book.owner != req.user._id) {
@@ -81,7 +81,7 @@ catalogController.post("/:id/edit", async (req, res) => {
   }
 });
 
-catalogController.post("/create", async (req, res) => {
+catalogController.post("/create",hasUser(), async (req, res) => {
 const book = {
     title: req.body.title,
     author: req.body.author,
@@ -99,18 +99,18 @@ try {
     }
 
     await create(book);
-    res.redirect("/");
+    res.redirect("/catalog");
   } catch (err) {
     res.render("create", {
       title: "Create new book review",
-      body: book,
       errors: parseError(err),
+      body: book,
     });
   }
 
 })
 
-catalogController.get("/:id/delete", async (req, res) => {
+catalogController.get("/:id/delete",hasUser(), async (req, res) => {
   const book = await getById(req.params.id);
 
   if (book.owner != req.user._id) {
@@ -121,7 +121,7 @@ catalogController.get("/:id/delete", async (req, res) => {
   res.redirect("/catalog");
 });
 
-catalogController.get("/:id/book", async (req, res) => {
+catalogController.get("/:id/book",hasUser(), async (req, res) => {
   const book = await getById(req.params.id);
 
   try {

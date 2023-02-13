@@ -9,7 +9,7 @@ async function getById(id) {
 }
 
 async function getByUserBooking(userId) {
-  return Book.findById({ bookings: userId }).lean();
+  return Book.find({ bookings: userId }).lean();
 }
 
 async function create(book) {

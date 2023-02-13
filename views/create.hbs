@@ -1,3 +1,4 @@
+   
     <section class="create-form-container">
 
         <form action="/catalog/create" method="post">
@@ -13,7 +14,7 @@
             <label>Image</label>
             <input type="text" name="imageUrl" class="box" id="imageUrl" value="{{body.imageUrl}}">
             <label>Review</label>
-            <textarea class="box" name="review"></textarea>
+            <textarea class="box" name="review">{{body.review}}</textarea>
             <input type="submit" value="Create" class="btn">
         </form>
     </section>
