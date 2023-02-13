@@ -5,11 +5,11 @@ const profileController = require("express").Router();
 
 
 profileController.get("/", hasUser(), async (req, res) => {
-    const bookings = await getByUserBooking(req.user._id);
+    const wish = await getByUserBooking(req.user._id);
   
     res.render("profile", {
       title: "Profile Page",
-      user: Object.assign({ bookings }, req.user),
+      user: Object.assign({ wish }, req.user),
     });
   });
   

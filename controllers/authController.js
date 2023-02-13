@@ -72,6 +72,10 @@ authController.post("/login", async (req, res) => {
   }
 });
 
+authController.get("/404", (req, res) => {
+  res.render("404", { title: "404" });
+});
+
 authController.get("/logout", async (req, res) => {
   res.clearCookie("token");
   res.redirect("/");

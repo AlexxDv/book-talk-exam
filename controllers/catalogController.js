@@ -30,7 +30,7 @@ catalogController.get("/:id/details", async (req, res) => {
   });
 });
 
-catalogController.get("/create",hasUser(), (req, res) => {
+catalogController.get("/create", (req, res) => {
   res.render("create", {
     title: "Create new book review",
   });
@@ -40,7 +40,7 @@ catalogController.get("/:id/edit", async (req, res) => {
   const book = await getById(req.params.id);
 
   if (book.owner != req.user._id) {
-    return res.redirect("/auth/login");
+    return res.redirect("/auth/404");
   }
 
   res.render("edit", {
@@ -53,7 +53,7 @@ catalogController.post("/:id/edit", async (req, res) => {
   const book = await getById(req.params.id);
 
   if (book.owner != req.user._id) {
-    return res.redirect("/auth/login");
+    return res.redirect("/auth/404");
   }
 
   const edited = {
@@ -114,7 +114,7 @@ catalogController.get("/:id/delete", async (req, res) => {
   const book = await getById(req.params.id);
 
   if (book.owner != req.user._id) {
-    return res.redirect("/auth/login");
+    return res.redirect("/auth/404");
   }
 
   await deleteById(req.params.id);
@@ -146,4 +146,5 @@ catalogController.get("/:id/book", async (req, res) => {
     });
   }
 });
+
 module.exports = catalogController;
