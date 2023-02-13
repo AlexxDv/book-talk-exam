@@ -17,7 +17,7 @@ const bookSchema = new Schema({
         },
         message: 'Stars must be between 1 and 5.'
       }},
-    wishingLisg: { type: [Types.ObjectId], ref: "User", default: []},
+      bookings: { type: [Types.ObjectId], ref: "User", default: []},
     owner: {type: Types.ObjectId, ref: "User", required: true},
 })
 
