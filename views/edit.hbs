@@ -1,8 +1,8 @@
    <section class="edit-form-container">
 
+            {{#with book}}
         <form action="/catalog/{{_id}}/edit" method="post">
             <h3>Edit Book Review</h3>
-            {{#with book}}
             <label>{{title}}</label>
             <input type="text" name="title" class="box" value="{{title}}" id="title">
             <label>Author</label>

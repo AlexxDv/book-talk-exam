@@ -22,7 +22,7 @@ async function update(id, book) {
   existing.title = book.title;
   existing.author = book.author;
   existing.genre = book.genre;
-  existing.stars = book.stars;
+  existing.stars = Number(book.stars);
   existing.imageUrl = book.imageUrl;
   existing.review = book.review;
 

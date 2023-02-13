@@ -1,11 +1,17 @@
-const { hasUser } = require("../middlewares/guards");
-const { getById, create, getAll, deleteById, update, bookReview } = require("../services/catalogService");
+const { hasUser, isGuest } = require("../middlewares/guards");
+const {
+  getById,
+  create,
+  getAll,
+  deleteById,
+  update,
+  bookReview,
+} = require("../services/catalogService");
 const { parseError } = require("../util/parser");
 const catalogController = require("express").Router();
 
-
 catalogController.get("/", async (req, res) => {
-    const books = await getAll()
+  const books = await getAll();
   res.render("catalog", {
     tytle: "Catalog page",
     user: req.user,
@@ -36,7 +42,7 @@ catalogController.get("/create", (req, res) => {
   });
 });
 
-catalogController.get("/:id/edit",hasUser(), async (req, res) => {
+catalogController.get("/:id/edit", hasUser(), async (req, res) => {
   const book = await getById(req.params.id);
 
   if (book.owner != req.user._id) {
@@ -49,7 +55,7 @@ catalogController.get("/:id/edit",hasUser(), async (req, res) => {
   });
 });
 
-catalogController.post("/:id/edit",hasUser(), async (req, res) => {
+catalogController.post("/:id/edit", hasUser(), async (req, res) => {
   const book = await getById(req.params.id);
 
   if (book.owner != req.user._id) {
@@ -81,8 +87,8 @@ catalogController.post("/:id/edit",hasUser(), async (req, res) => {
   }
 });
 
-catalogController.post("/create",hasUser(), async (req, res) => {
-const book = {
+catalogController.post("/create", hasUser(), async (req, res) => {
+  const book = {
     title: req.body.title,
     author: req.body.author,
     imageUrl: req.body.imageUrl,
@@ -90,10 +96,9 @@ const book = {
     genre: req.body.genre,
     stars: Number(req.body.stars),
     owner: req.user._id,
+  };
 
-}
-
-try {
+  try {
     if (Object.values(book).some((value) => !value)) {
       throw new Error("All fields are required");
     }
@@ -107,10 +112,9 @@ try {
       body: book,
     });
   }
+});
 
-})
-
-catalogController.get("/:id/delete",hasUser(), async (req, res) => {
+catalogController.get("/:id/delete", hasUser(), async (req, res) => {
   const book = await getById(req.params.id);
 
   if (book.owner != req.user._id) {
@@ -121,7 +125,7 @@ catalogController.get("/:id/delete",hasUser(), async (req, res) => {
   res.redirect("/catalog");
 });
 
-catalogController.get("/:id/book",hasUser(), async (req, res) => {
+catalogController.get("/:id/book", hasUser(), async (req, res) => {
   const book = await getById(req.params.id);
 
   try {
