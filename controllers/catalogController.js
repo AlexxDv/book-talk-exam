@@ -22,7 +22,10 @@ catalogController.get("/", async (req, res) => {
 catalogController.get("/:id/details", async (req, res) => {
   const book = await getById(req.params.id);
 
-  if (book.owner == req.user._id) {
+  //const isOwner = book,owner == req.user?._id
+
+  if (book.owner == req.user._id) { // или да го сложим book.owner.toString()
+
     book.isOwner = true;
   } else if (
     book.bookings.map((b) => b.toString()).includes(req.user._id.toString())
@@ -36,10 +39,37 @@ catalogController.get("/:id/details", async (req, res) => {
   });
 });
 
-catalogController.get("/create", (req, res) => {
+catalogController.get("/create",hasUser, (req, res) => {
   res.render("create", {
     title: "Create new book review",
   });
+});
+
+catalogController.post("/create", hasUser, async (req, res) => {
+  const book = {
+    title: req.body.title,
+    author: req.body.author,
+    imageUrl: req.body.imageUrl,
+    review: req.body.review,
+    genre: req.body.genre,
+    stars: Number(req.body.stars),
+    owner: req.user._id,
+  };
+
+  try {
+    if (Object.values(book).some((value) => !value)) {
+      throw new Error("All fields are required");
+    }
+
+    await create(book);
+    res.redirect("/catalog");
+  } catch (err) {
+    res.render("create", {
+      title: "Create new book review",
+      errors: parseError(err),
+      body: book,
+    });
+  }
 });
 
 catalogController.get("/:id/edit", hasUser, async (req, res) => {
@@ -83,33 +113,6 @@ catalogController.post("/:id/edit", hasUser, async (req, res) => {
       title: "Edit Book",
       book: Object.assign(edited, { _id: req.params.id }),
       errors: parseError(err),
-    });
-  }
-});
-
-catalogController.post("/create", hasUser, async (req, res) => {
-  const book = {
-    title: req.body.title,
-    author: req.body.author,
-    imageUrl: req.body.imageUrl,
-    review: req.body.review,
-    genre: req.body.genre,
-    stars: Number(req.body.stars),
-    owner: req.user._id,
-  };
-
-  try {
-    if (Object.values(book).some((value) => !value)) {
-      throw new Error("All fields are required");
-    }
-
-    await create(book);
-    res.redirect("/catalog");
-  } catch (err) {
-    res.render("create", {
-      title: "Create new book review",
-      errors: parseError(err),
-      body: book,
     });
   }
 });

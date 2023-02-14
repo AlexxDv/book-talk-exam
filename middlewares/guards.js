@@ -1,6 +1,8 @@
 function hasUser() {
   return (req, res, next) => {
     if (req.user) {
+      //да изпробвам дали ще стане с за проверка на view details при guest login
+      //req.user = {}
       next();
     } else {
       res.redirect("/auth/404");
